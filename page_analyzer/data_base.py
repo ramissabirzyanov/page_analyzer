@@ -21,15 +21,14 @@ class URL_DB:
             cursor.execute("SELECT * FROM urls WHERE urls.name=%s;", (name,))
             data = cursor.fetchone()
         return data
-    
+
     def save_to_db(self, url):
         conn = get_db_connect()
         conn.autocommit = True
         with conn.cursor(cursor_factory=DictCursor) as cursor:
-            cursor.execute(
-            "INSERT INTO urls (name, created_at)\
-            VALUES (%s, NOW())",
-            (url,))
+            cursor.execute("INSERT INTO urls (name, created_at)\
+                           VALUES (%s, NOW())",
+                           (url,))
 
     def get_id_by_name(self, name):
         conn = get_db_connect()
