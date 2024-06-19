@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request, flash, url_for
 from dotenv import load_dotenv
 from page_analyzer.url import normalize_url
-from page_analyzer.data_base import get_db_connect
+#from page_analyzer.data_base import get_db_connect
 from psycopg2.extras import DictCursor
 from .data_base import URL_DB
 import os
@@ -38,21 +38,13 @@ def add_url():
 
 @app.route('/urls', methods=['GET'])
 def get_urls():
-    conn = get_db_connect()
-    conn.autocommit = True
-    with conn.cursor(cursor_factory=DictCursor) as cursor:
-        cursor.execute(
-            "SELECT * FROM urls;")
-        urls = cursor.fetchall()
+    bd = URL_DB()
+    urls = bd.get_urls()
     return render_template('urls.html', urls=urls)
 
 
 @app.route('/urls/<int:id>')
 def url_page(id):
-    conn = get_db_connect()
-    conn.autocommit = True
-    with conn.cursor(cursor_factory=DictCursor) as cursor:
-        cursor.execute(
-            "SELECT * FROM urls WHERE urls.id=%s;", (id,))
-        url = cursor.fetchone()
+    bd = URL_DB()
+    url = bd.get_url_by_id(id)
     return render_template('url.html', url=url)
