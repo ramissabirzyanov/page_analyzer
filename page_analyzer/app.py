@@ -17,7 +17,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/urls', methods=['POST'])
+@app.route('/', methods=['POST'])
 def add_url():
     url = normalize_url(request.form.get('url'))
     if not validators.url(url) or len(url) > 255:
