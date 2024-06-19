@@ -14,7 +14,6 @@ CONNECTION.autocommit = True
 
 class URL_DB:
     def get_data_by_name(self, name):
-        #conn = get_db_connect()
         with CONNECTION.cursor(cursor_factory=DictCursor) as cursor:
             cursor.execute("SELECT * FROM urls WHERE urls.name=%s;", (name,))
             data = cursor.fetchone()
@@ -31,17 +30,15 @@ class URL_DB:
             cursor.execute("SELECT id FROM urls WHERE urls.name=%s;", (name,))
             id = cursor.fetchone()['id']
         return id
-    
+
     def get_urls(self):
         with CONNECTION.cursor(cursor_factory=DictCursor) as cursor:
-            cursor.execute(
-            "SELECT * FROM urls;")
+            cursor.execute("SELECT * FROM urls;")
             urls = cursor.fetchall()
         return urls
-    
+
     def get_url_by_id(self, id):
         with CONNECTION.cursor(cursor_factory=DictCursor) as cursor:
-            cursor.execute(
-            "SELECT * FROM urls WHERE urls.id=%s;", (id,))
+            cursor.execute("SELECT * FROM urls WHERE urls.id=%s;", (id,))
             url = cursor.fetchone()
         return url

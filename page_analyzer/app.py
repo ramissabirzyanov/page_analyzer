@@ -1,8 +1,6 @@
 from flask import Flask, render_template, redirect, request, flash, url_for
 from dotenv import load_dotenv
 from page_analyzer.url import normalize_url
-#from page_analyzer.data_base import get_db_connect
-from psycopg2.extras import DictCursor
 from .data_base import URL_DB
 import os
 import validators
