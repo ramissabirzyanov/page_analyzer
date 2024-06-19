@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from page_analyzer.url import normalize_url
 from page_analyzer.data_base import get_db_connect
 from psycopg2.extras import DictCursor
+from .data_base import URL_DB
 import os
 import validators
 
@@ -23,21 +24,14 @@ def add_url():
     if not validators.url(url) or len(url) > 255:
         flash('Некорректный URL', category='danger')
         return render_template('index.html'), 422
-    conn = get_db_connect()
-    conn.autocommit = True
-    with conn.cursor(cursor_factory=DictCursor) as cursor:
-        cursor.execute("SELECT * FROM urls WHERE urls.name=%s;", (url,))
-        data_urls = cursor.fetchone()
-        if data_urls:
-            id = data_urls['id']
-            flash('Страница уже существует', category='info')
-            return redirect(url_for('url_page', id=id))
-        cursor.execute(
-            "INSERT INTO urls (name, created_at)\
-            VALUES (%s, NOW())\
-            RETURNING id;",
-            (url,))
-        id = cursor.fetchone()['id']
+    bd = URL_DB()
+    data_urls = bd.get_data_by_name(url)
+    if data_urls:
+        id = data_urls['id']
+        flash('Страница уже существует', category='info')
+        return redirect(url_for('url_page', id=id))
+    bd.save_to_db(url)
+    id = bd.get_id_by_name(url)
     flash('Страница успешно добавлена', category='success')
     return redirect(url_for('url_page', id=id))
 
