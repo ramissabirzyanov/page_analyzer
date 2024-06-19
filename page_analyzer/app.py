@@ -7,7 +7,6 @@ import os
 import validators
 
 
-
 load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
@@ -18,7 +17,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/urls', methods = ['POST'])
+@app.route('/urls', methods=['POST'])
 def add_url():
     url = normalize_url(request.form.get('url'))
     if not validators.url(url) or len(url) > 255:
@@ -43,7 +42,7 @@ def add_url():
     return redirect(url_for('url_page', id=id))
 
 
-@app.route('/urls', methods = ['GET'])
+@app.route('/urls', methods=['GET'])
 def get_urls():
     conn = get_db_connect()
     conn.autocommit = True
