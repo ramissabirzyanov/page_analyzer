@@ -50,11 +50,12 @@ class URL_DB:
             data = cursor.fetchone()
         return data
 
-    def save_check_to_db(self, url_id):
+    def save_check_to_db(self, url_id, code):
         with CONNECTION.cursor(cursor_factory=DictCursor) as cursor:
-            cursor.execute("INSERT INTO  url_checks (url_id, created_at)\
-                           VALUES (%s, NOW())",
-                           (url_id,))
+            cursor.execute("INSERT INTO  url_checks (\
+                           url_id, status_code, created_at)\
+                           VALUES (%s, %s, NOW());",
+                           (url_id, code,))
 
     def get_check_by_url_id(self, url_id):
         with CONNECTION.cursor(cursor_factory=DictCursor) as cursor:

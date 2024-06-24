@@ -4,6 +4,7 @@ from page_analyzer.url import normalize_url
 from .data_base import URL_DB
 import os
 import validators
+import requests
 
 
 load_dotenv()
@@ -52,6 +53,14 @@ def url_page(id):
 @app.route('/urls/<int:id>/checks', methods=['POST'])
 def check_url(id):
     db = URL_DB()
-    db.save_check_to_db(id)
+    url_data = db.get_data_by_id(id)
+    try:
+        response = requests.get(url_data['name'])
+        response.raise_for_status()
+        code = response.status_code
+    except Exception:
+        flash('Произошла ошибка при проверке', category='danger')
+        return redirect(url_for('url_page', id=id))
+    db.save_check_to_db(id, code)
     flash('Страница успешно проверена', category='success')
     return redirect(url_for('url_page', id=id))
