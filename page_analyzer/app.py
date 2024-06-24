@@ -48,6 +48,7 @@ def url_page(id):
     checks = db.get_check_by_url_id(id)
     return render_template('url.html', url=url_data, checks=checks)
 
+
 @app.route('/urls/<int:id>/checks', methods=['POST'])
 def check_url(id):
     db = URL_DB()

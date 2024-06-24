@@ -49,15 +49,17 @@ class URL_DB:
             cursor.execute("SELECT * FROM urls WHERE urls.id=%s;", (id,))
             data = cursor.fetchone()
         return data
-    
+
     def save_check_to_db(self, url_id):
         with CONNECTION.cursor(cursor_factory=DictCursor) as cursor:
             cursor.execute("INSERT INTO  url_checks (url_id, created_at)\
                            VALUES (%s, NOW())",
                            (url_id,))
-    
+
     def get_check_by_url_id(self, url_id):
         with CONNECTION.cursor(cursor_factory=DictCursor) as cursor:
-            cursor.execute("SELECT * FROM url_checks WHERE url_checks.url_id=%s ORDER BY id DESC;", (url_id,))
+            cursor.execute("SELECT * FROM url_checks\
+                           WHERE url_checks.url_id=%s\
+                           ORDER BY id DESC;", (url_id,))
             check = cursor.fetchall()
         return check
