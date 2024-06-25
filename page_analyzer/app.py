@@ -39,7 +39,6 @@ def add_url():
 def get_urls():
     db = URL_DB()
     urls = db.get_urls()
-    print(urls)
     return render_template('urls.html', urls=urls)
 
 
