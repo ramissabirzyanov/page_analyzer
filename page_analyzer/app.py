@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, request, flash, url_for
 from dotenv import load_dotenv
 from page_analyzer.url import normalize_url
 from .data_base import URL_DB
+from .url import get_seo
 import os
 import validators
 import requests
@@ -56,11 +57,15 @@ def check_url(id):
     url_data = db.get_data_by_id(id)
     try:
         response = requests.get(url_data['name'])
-        response.raise_for_status()
         code = response.status_code
+        response.raise_for_status()
+        seo_data = get_seo(response.text)
+        title = seo_data['title']
+        h1 = seo_data['h1']
+        desctiption = seo_data['description']
     except Exception:
         flash('Произошла ошибка при проверке', category='danger')
         return redirect(url_for('url_page', id=id))
-    db.save_check_to_db(id, code)
+    db.save_check_to_db(id, code, h1, title, desctiption)
     flash('Страница успешно проверена', category='success')
     return redirect(url_for('url_page', id=id))

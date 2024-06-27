@@ -8,10 +8,6 @@ load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 
-# CONNECTION = psycopg2.connect(DATABASE_URL)
-# CONNECTION.autocommit = True
-
-
 class URL_DB:
     def get_data_by_name(self, name):
         connection = psycopg2.connect(DATABASE_URL)
@@ -64,14 +60,14 @@ class URL_DB:
             data = cursor.fetchone()
         return data
 
-    def save_check_to_db(self, url_id, code):
+    def save_check_to_db(self, url_id, code, h1, title, desctiption):
         connection = psycopg2.connect(DATABASE_URL)
         connection.autocommit = True
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute("INSERT INTO  url_checks (\
-                           url_id, status_code, created_at)\
-                           VALUES (%s, %s, NOW());",
-                           (url_id, code,))
+                           url_id, status_code, h1, title, description, created_at)\
+                           VALUES (%s, %s, %s, %s, %s, NOW());",
+                           (url_id, code, h1, title, desctiption,))
 
     def get_check_by_url_id(self, url_id):
         connection = psycopg2.connect(DATABASE_URL)
