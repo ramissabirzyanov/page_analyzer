@@ -8,7 +8,7 @@ https://python-project-83-8j4h.onrender.com
 
 ```
 git clone https://github.com/ramissabirzyanov/python-project-83
-cd python-project-50
+cd python-project-83
 make package-install
 ```
 
