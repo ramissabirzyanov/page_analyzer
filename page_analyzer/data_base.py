@@ -6,36 +6,30 @@ from psycopg2.extras import RealDictCursor, RealDictRow
 
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
+connection = psycopg2.connect(DATABASE_URL)
+connection.autocommit = True
 
 
 class URL_DB:
     def get_data_by_name(self, name):
-        connection = psycopg2.connect(DATABASE_URL)
-        connection.autocommit = True
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute("SELECT * FROM urls WHERE urls.name=%s;", (name,))
             data = cursor.fetchone()
         return data
 
     def save_to_db(self, url, table='urls'):
-        connection = psycopg2.connect(DATABASE_URL)
-        connection.autocommit = True
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(f"INSERT INTO {table} (name, created_at)\
                            VALUES (%s, NOW())",
                            (url,))
 
     def get_id_by_name(self, name):
-        connection = psycopg2.connect(DATABASE_URL)
-        connection.autocommit = True
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute("SELECT id FROM urls WHERE urls.name=%s;", (name,))
             id = cursor.fetchone()['id']
         return id
 
     def get_urls(self):
-        connection = psycopg2.connect(DATABASE_URL)
-        connection.autocommit = True
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute("SELECT DISTINCT ON (urls.id)\
                            urls.id,\
@@ -53,16 +47,12 @@ class URL_DB:
         return urls
 
     def get_data_by_id(self, id):
-        connection = psycopg2.connect(DATABASE_URL)
-        connection.autocommit = True
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute("SELECT * FROM urls WHERE urls.id=%s;", (id,))
             data = cursor.fetchone()
         return data
 
     def save_check_to_db(self, url_id, code, h1, title, descr, table='url_checks'):
-        connection = psycopg2.connect(DATABASE_URL)
-        connection.autocommit = True
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(f"INSERT INTO {table} (\
                            url_id, status_code, h1, title, description, created_at)\
@@ -70,8 +60,6 @@ class URL_DB:
                            (url_id, code, h1, title, descr,))
 
     def get_check_by_url_id(self, url_id):
-        connection = psycopg2.connect(DATABASE_URL)
-        connection.autocommit = True
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute("SELECT * FROM url_checks\
                            WHERE url_checks.url_id=%s\
