@@ -1,6 +1,6 @@
-import requests
-from page_analyzer.data_base import URL_DB
-from page_analyzer.url import get_seo
+# import requests
+# from page_analyzer.data_base import URL_DB
+# from page_analyzer.url import get_seo
 
 
 def test_main_page(client):
