@@ -17,5 +17,9 @@ publish:
 package-install:
 		python3 -m pip install --force-reinstall dist/*.whl
 
-lint:
+check:
 		poetry run flake8
+		poetry run pytest
+
+test-coverage:
+		poetry run pytest --cov=page_analyzer --cov-report xml

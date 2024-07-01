@@ -57,15 +57,15 @@ def check_url(id):
     url_data = db.get_data_by_id(id)
     try:
         response = requests.get(url_data['name'])
-        code = response.status_code
         response.raise_for_status()
+        code = response.status_code
         seo_data = get_seo(response.text)
         title = seo_data['title']
         h1 = seo_data['h1']
         desctiption = seo_data['description']
+        db.save_check_to_db(id, code, h1, title, desctiption)
+        flash('Страница успешно проверена', category='success')
+        return redirect(url_for('url_page', id=id))
     except Exception:
         flash('Произошла ошибка при проверке', category='danger')
         return redirect(url_for('url_page', id=id))
-    db.save_check_to_db(id, code, h1, title, desctiption)
-    flash('Страница успешно проверена', category='success')
-    return redirect(url_for('url_page', id=id))

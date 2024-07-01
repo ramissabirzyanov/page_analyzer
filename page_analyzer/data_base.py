@@ -17,11 +17,11 @@ class URL_DB:
             data = cursor.fetchone()
         return data
 
-    def save_to_db(self, url):
+    def save_to_db(self, url, table='urls'):
         connection = psycopg2.connect(DATABASE_URL)
         connection.autocommit = True
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
-            cursor.execute("INSERT INTO urls (name, created_at)\
+            cursor.execute(f"INSERT INTO {table} (name, created_at)\
                            VALUES (%s, NOW())",
                            (url,))
 
@@ -60,14 +60,14 @@ class URL_DB:
             data = cursor.fetchone()
         return data
 
-    def save_check_to_db(self, url_id, code, h1, title, desctiption):
+    def save_check_to_db(self, url_id, code, h1, title, descr, table='url_checks'):
         connection = psycopg2.connect(DATABASE_URL)
         connection.autocommit = True
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
-            cursor.execute("INSERT INTO  url_checks (\
+            cursor.execute(f"INSERT INTO {table} (\
                            url_id, status_code, h1, title, description, created_at)\
                            VALUES (%s, %s, %s, %s, %s, NOW());",
-                           (url_id, code, h1, title, desctiption,))
+                           (url_id, code, h1, title, descr,))
 
     def get_check_by_url_id(self, url_id):
         connection = psycopg2.connect(DATABASE_URL)

@@ -14,13 +14,13 @@ def get_seo(res_text):
         'description': '',
     }
     soup = BeautifulSoup(res_text, 'html.parser')
-    h1 = soup.find('h1').text
-    title = soup.find('title').text
-    description = soup.find('meta', attrs={'name': 'description'})['content']
+    h1 = soup.find('h1')
+    title = soup.find('title')
+    description = soup.find('meta', attrs={'name': 'description'})
     if h1:
-        seo['h1'] = h1
+        seo['h1'] = h1.text
     if title:
-        seo['title'] = title
+        seo['title'] = title.text
     if description:
-        seo['description'] = description
+        seo['description'] = description['content']
     return seo
