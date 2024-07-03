@@ -47,13 +47,13 @@ class URL_DB:
         return data
 
     def save_check_to_db(self, connection,
-                         url_id, code, h1, title, descriprion,
+                         url_id, code, h1, title, description,
                          table='url_checks'):
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(f"INSERT INTO {table} (\
                            url_id, status_code, h1, title, description, created_at)\
                            VALUES (%s, %s, %s, %s, %s, NOW());",
-                           (url_id, code, h1, title, descriprion,))
+                           (url_id, code, h1, title, description,))
 
     def get_check_by_url_id(self, connection, url_id):
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:

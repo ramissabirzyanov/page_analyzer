@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-DATABASE_URL = os.getenv('DATABASE_URL')
+TEST_DATABASE_URL = os.getenv('TEST_DATABASE_URL')
 
 
 @pytest.fixture
@@ -18,7 +18,7 @@ def client():
 
 @pytest.fixture
 def test_urls():
-    connection = psycopg2.connect(DATABASE_URL)
+    connection = psycopg2.connect(TEST_DATABASE_URL)
     connection.autocommit = True
     with connection.cursor() as cursor:
         cursor.execute('''CREATE TABLE test_urls (
@@ -30,7 +30,7 @@ def test_urls():
 
 @pytest.fixture
 def test_url_checks():
-    connection = psycopg2.connect(DATABASE_URL)
+    connection = psycopg2.connect(TEST_DATABASE_URL)
     connection.autocommit = True
     with connection.cursor() as cursor:
         cursor.execute('''CREATE TABLE test_url_checks(
