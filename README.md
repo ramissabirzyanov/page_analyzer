@@ -1,15 +1,20 @@
-```
-https://python-project-83-8j4h.onrender.com
-```
+#### Description
+
+
+[Page Analyzer](https://python-project-83-8j4h.onrender.com "link to application") is a website which analyzes sites for SEO suitability.
 
 
 #### Installation
+
+To start application lacolly tap this commands
 
 
 ```
 git clone https://github.com/ramissabirzyanov/python-project-83
 cd python-project-83
-make package-install
+make isntall
+make build
+make dev
 ```
 
 

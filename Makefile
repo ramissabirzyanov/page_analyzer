@@ -11,12 +11,6 @@ start:
 build:
 		./build.sh
 
-publish:
-		poetry publish --dry-run
-
-package-install:
-		python3 -m pip install --force-reinstall dist/*.whl
-
 check:
 		poetry run flake8
 		poetry run pytest
