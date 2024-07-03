@@ -7,20 +7,24 @@ def normalize_url(url):
     return f'{parsed_url.scheme}://{parsed_url.netloc}'
 
 
-def get_seo(res_text):
-    seo = {
+def get_info(res):
+    res_text = res.text
+    url_info = {
+        'code': None,
         'h1': '',
         'title': '',
         'description': '',
     }
     soup = BeautifulSoup(res_text, 'html.parser')
+    code = res.status_code
     h1 = soup.find('h1')
     title = soup.find('title')
     description = soup.find('meta', attrs={'name': 'description'})
+    url_info['code'] = code
     if h1:
-        seo['h1'] = h1.text
+        url_info['h1'] = h1.text
     if title:
-        seo['title'] = title.text
+        url_info['title'] = title.text
     if description:
-        seo['description'] = description['content']
-    return seo
+        url_info['description'] = description['content']
+    return url_info
