@@ -1,6 +1,7 @@
 import requests
 from page_analyzer.data_base import URL_DB
 from page_analyzer.url import get_info
+from flask import url_for
 
 
 def test_main_page(client):
@@ -38,3 +39,4 @@ def test_urls(client, test_urls, test_url_checks, url='https://letcode.in'):
     assert result_url is not None
     assert url_page.status_code == 200
     assert result_check is not None
+    assert client.post(url_for('check_url', id=result_url[0])).status_code == 302
