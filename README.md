@@ -1,7 +1,7 @@
 #### Description
 
 
-[Page Analyzer](https://python-project-83-8j4h.onrender.com "link to application") is a website which analyzes sites for SEO suitability.
+[Page Analyzer](https://page-analyzer-app-wc5k.onrender.com/ "link to application") is a website which analyzes sites for SEO suitability.
 
 
 #### Installation
