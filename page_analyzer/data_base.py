@@ -4,7 +4,6 @@ from psycopg2.extras import RealDictCursor
 
 def get_connection(db):
     connection = psycopg2.connect(db)
-    connection.autocommit = True
     return connection
 
 
