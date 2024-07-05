@@ -7,8 +7,8 @@ def normalize_url(url):
     return f'{parsed_url.scheme}://{parsed_url.netloc}'
 
 
-def get_info(res):
-    res_text = res.text
+def get_info(response):
+    res_text = response.text
     url_info = {
         'code': None,
         'h1': '',
@@ -16,7 +16,7 @@ def get_info(res):
         'description': '',
     }
     soup = BeautifulSoup(res_text, 'html.parser')
-    code = res.status_code
+    code = response.status_code
     h1 = soup.find('h1')
     title = soup.find('title')
     description = soup.find('meta', attrs={'name': 'description'})
