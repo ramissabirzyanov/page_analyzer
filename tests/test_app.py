@@ -1,5 +1,5 @@
 # import requests
-# from page_analyzer.data_base import URL_DB
+# from page_analyzer import data_base
 # from page_analyzer.url import get_info
 # from flask import url_for
 
@@ -17,15 +17,14 @@
 
 # def test_urls(client, test_urls, test_url_checks, url='https://letcode.in'):
 #     response = requests.get(url)
-#     db = URL_DB()
-#     db.save_to_db(test_urls, url, 'test_urls')
+#     data_base.save_to_db(test_urls, url, 'test_urls')
 #     cursor_test_urls = test_urls.cursor()
 #     cursor_test_urls.execute("SELECT * FROM test_urls\
 #                              WHERE test_urls.name ='https://letcode.in'")
 #     result_url = cursor_test_urls.fetchone()
 #     url_page = client.get(f'/urls/{result_url[0]}')
 #     info = get_info(response)
-#     db.save_check_to_db(test_url_checks,
+#     data_base.save_check_to_db(test_url_checks,
 #                         result_url[0],
 #                         info['code'],
 #                         info['h1'],
