@@ -19,7 +19,7 @@ def save_to_db(connection, name, table='urls'):
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
         cursor.execute(f"INSERT INTO {table} (name, created_at)\
                         VALUES ('{name}', NOW());")
-    
+
 
 def get_urls(connection):
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
@@ -43,12 +43,13 @@ def get_data_by_id(connection, id):
 
 
 def save_check_to_db(connection,
-                        url_id, code, h1, title, description,
-                        table='url_checks'):
+                     url_id, code, h1, title, description,
+                     table='url_checks'):
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
-        cursor.execute(f"INSERT INTO {table} (\
-                        url_id, status_code, h1, title, description, created_at)\
-                        VALUES ({url_id}, {code}, '{h1}', '{title}', '{description}', NOW());")
+        cursor.execute(
+            f"INSERT INTO {table} (\
+            url_id, status_code, h1, title, description, created_at)\
+            VALUES ({url_id}, {code}, '{h1}', '{title}', '{description}', NOW());")
 
 
 def get_check_by_url_id(connection, url_id):
