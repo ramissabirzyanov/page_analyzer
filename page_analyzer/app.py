@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, flash, url_for
 from dotenv import load_dotenv
-from page_analyzer.url import normalize_url, get_info
+from page_analyzer.utils import normalize_url, get_page_data
 from page_analyzer import data_base
 import os
 import validators
@@ -29,10 +29,10 @@ def add_url():
     if data_urls:
         flash('Страница уже существует', category='info')
         return redirect(url_for('url_page', id=data_urls['id']))
-    data_base.save_to_db(conn, url)
-    new_data = data_base.get_data_by_name(conn, url)
+    data_base.insert_to_db(conn, url)
+    url = data_base.get_url_by_name(conn, url)
     flash('Страница успешно добавлена', category='success')
-    return redirect(url_for('url_page', id=new_data['id']))
+    return redirect(url_for('url_page', id=url['id']))
 
 
 @app.route('/urls', methods=['GET'])
@@ -42,7 +42,7 @@ def show_urls():
     return render_template('urls.html', urls=urls)
 
 
-@app.route('/urls/<int:id>')
+@app.route('/urls/<int:id>', methods=['GET'])
 def url_page(id):
     conn = data_base.get_connection(DATABASE_URL)
     url_data = data_base.get_data_by_id(conn, id)
@@ -60,7 +60,7 @@ def check_url(id):
     except Exception:
         flash('Произошла ошибка при проверке', category='danger')
         return redirect(url_for('url_page', id=id))
-    url_info = get_info(response)
-    data_base.save_check_to_db(conn, id, **url_info)
+    url_info = get_page_data(response)
+    data_base.insert_check_to_db(conn, id, **url_info)
     flash('Страница успешно проверена', category='success')
     return redirect(url_for('url_page', id=id))

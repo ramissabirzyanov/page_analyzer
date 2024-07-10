@@ -8,14 +8,14 @@ def get_connection(db):
     return connection
 
 
-def get_data_by_name(connection, name):
+def get_url_by_name(connection, name):
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
         cursor.execute(f"SELECT * FROM urls WHERE urls.name='{name}';")
-        data = cursor.fetchone()
-    return data
+        url = cursor.fetchone()
+    return url
 
 
-def save_to_db(connection, name, table='urls'):
+def insert_to_db(connection, name, table='urls'):
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
         cursor.execute(f"INSERT INTO {table} (name, created_at)\
                         VALUES ('{name}', NOW());")
@@ -42,9 +42,9 @@ def get_data_by_id(connection, id):
     return data
 
 
-def save_check_to_db(connection,
-                     url_id, code, h1, title, description,
-                     table='url_checks'):
+def insert_check_to_db(connection,
+                       url_id, code, h1, title, description,
+                       table='url_checks'):
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
         cursor.execute(
             f"INSERT INTO {table} (\

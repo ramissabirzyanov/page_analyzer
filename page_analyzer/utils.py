@@ -7,7 +7,7 @@ def normalize_url(url):
     return f'{parsed_url.scheme}://{parsed_url.netloc}'
 
 
-def get_info(response):
+def get_page_data(response):
     res_text = response.text
     url_info = {
         'code': None,
