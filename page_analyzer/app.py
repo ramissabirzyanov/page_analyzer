@@ -20,19 +20,19 @@ def index():
 
 @app.route('/urls', methods=['POST'])
 def add_url():
-    url = normalize_url(request.form.get('url'))
-    if not validators.url(url) or len(url) > 255:
+    url_name = normalize_url(request.form.get('url'))
+    if not validators.url(url_name) or len(url_name) > 255:
         flash('Некорректный URL', category='danger')
         return render_template('index.html'), 422
     conn = data_base.get_connection(DATABASE_URL)
-    data_urls = data_base.get_data_by_name(conn, url)
-    if data_urls:
+    url = data_base.get_url_by_name(conn, url_name)
+    if url:
         flash('Страница уже существует', category='info')
-        return redirect(url_for('url_page', id=data_urls['id']))
-    data_base.insert_to_db(conn, url)
-    url = data_base.get_url_by_name(conn, url)
+        return redirect(url_for('url_page', id=url['id']))
+    data_base.insert_to_db(conn, url_name)
+    new_url = data_base.get_url_by_name(conn, url_name)
     flash('Страница успешно добавлена', category='success')
-    return redirect(url_for('url_page', id=url['id']))
+    return redirect(url_for('url_page', id=new_url['id']))
 
 
 @app.route('/urls', methods=['GET'])
